@@ -9,4 +9,5 @@
 **/settings.gradle
 **/build/
 **/.idea/
+**/application.properties
 
