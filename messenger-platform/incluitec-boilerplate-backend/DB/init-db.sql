@@ -1,1 +1,6 @@
-CREATE DATABASE incluitec;
+
+CREATE TABLE usuario(
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR (50) NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT NOW()
+);
