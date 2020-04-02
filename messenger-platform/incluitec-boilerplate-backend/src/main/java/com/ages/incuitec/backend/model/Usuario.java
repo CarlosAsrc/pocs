@@ -1,4 +1,4 @@
-package com.ages.incuitec.backend.Usuario;
+package com.ages.incuitec.backend.model;
 
 import org.springframework.data.annotation.Id;
 

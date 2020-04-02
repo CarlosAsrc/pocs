@@ -1,6 +1,6 @@
 package com.ages.incuitec.backend.repository;
 
-import com.ages.incuitec.backend.Usuario.Usuario;
+import com.ages.incuitec.backend.model.Usuario;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

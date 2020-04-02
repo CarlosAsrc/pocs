@@ -1,6 +1,6 @@
 package com.ages.incuitec.backend.mapper;
 
-import com.ages.incuitec.backend.Usuario.Usuario;
+import com.ages.incuitec.backend.model.Usuario;
 import com.ages.incuitec.backend.dto.UsuarioDto;
 
 public class UsuarioMapper {

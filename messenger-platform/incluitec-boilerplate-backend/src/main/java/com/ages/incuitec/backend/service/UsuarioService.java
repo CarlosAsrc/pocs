@@ -1,6 +1,6 @@
 package com.ages.incuitec.backend.service;
 
-import com.ages.incuitec.backend.Usuario.Usuario;
+import com.ages.incuitec.backend.model.Usuario;
 import com.ages.incuitec.backend.dto.UsuarioDto;
 import com.ages.incuitec.backend.exception.ResourceNotFoundException;
 import com.ages.incuitec.backend.mapper.UsuarioMapper;
