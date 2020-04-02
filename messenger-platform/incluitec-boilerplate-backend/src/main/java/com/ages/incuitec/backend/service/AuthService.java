@@ -25,12 +25,15 @@ public class AuthService {
     @Value("${spring.social.facebook.graphUrl}")
     private String GRAPH_API_URL;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     private String userAccessToken;
     private String userId;
     private static final Logger log = LogManager.getLogger(AuthService.class);
+
+    public AuthService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
 
     public String createFacebookAuthorizationURL(){
