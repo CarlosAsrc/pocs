@@ -2,12 +2,13 @@ package com.ages.incuitec.backend.controller;
 
 import com.ages.incuitec.backend.Usuario.Usuario;
 import com.ages.incuitec.backend.dto.UsuarioDto;
-import com.ages.incuitec.backend.exception.RecursoNaoEncontradoException;
+import com.ages.incuitec.backend.exception.ResourceNotFoundException;
 import com.ages.incuitec.backend.mapper.UsuarioMapper;
-import com.ages.incuitec.backend.service.FacebookService;
+import com.ages.incuitec.backend.service.AuthService;
 import com.ages.incuitec.backend.service.UsuarioService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,19 +17,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("v1/usuario/")
+@RequestMapping("v1/user/")
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
-    private static final Logger log = LogManager.getLogger(FacebookService.class);
+    private static final Logger log = LogManager.getLogger(AuthService.class);
 
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping("inserir")
+    @PostMapping("create")
     public ResponseEntity<UsuarioDto> inserirUsuario(@RequestBody UsuarioDto usuarioDto){
         log.info("Salvando usuário: {}", usuarioDto);
         Usuario usuarioSalvo = usuarioService.salvar(usuarioDto);
@@ -36,12 +37,15 @@ public class UsuarioController {
         return ResponseEntity.ok(UsuarioMapper.mapToDto(usuarioSalvo));
     }
 
-    @RequestMapping("buscar")
-    public ResponseEntity<UsuarioDto> buscarUsuario(@PathVariable Long id){
-        log.info("Iniciando busca por usuário com id {}", id);
-        Usuario usuarioSalvo = usuarioService.buscar(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário com id "+id+" não encontrado."));
-        log.info("Usuário com id {} encontrado", id);
-        return ResponseEntity.ok(UsuarioMapper.mapToDto(usuarioSalvo));
+    @RequestMapping("{id}")
+    public ResponseEntity buscarUsuario(@PathVariable Long id){
+        try {
+            log.info("Iniciando busca por usuário com id {}", id);
+            Usuario usuarioSalvo = usuarioService.buscar(id);
+            log.info("Usuário com id {} encontrado", id);
+            return ResponseEntity.ok(UsuarioMapper.mapToDto(usuarioSalvo));
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
     }
 }

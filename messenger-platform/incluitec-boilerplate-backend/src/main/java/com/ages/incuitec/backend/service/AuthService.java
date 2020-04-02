@@ -17,18 +17,20 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @PropertySource("classpath:application.properties")
-public class FacebookService {
+public class AuthService {
     @Value("${spring.social.facebook.appId}")
-    String facebookAppId;
+    private String facebookAppId;
     @Value("${spring.social.facebook.appSecret}")
-    String facebookSecret;
+    private String facebookSecret;
+    @Value("${spring.social.facebook.graphUrl}")
+    private String GRAPH_API_URL;
 
     @Autowired
     private RestTemplate restTemplate;
 
     private String userAccessToken;
     private String userId;
-    private static final Logger log = LogManager.getLogger(FacebookService.class);
+    private static final Logger log = LogManager.getLogger(AuthService.class);
 
 
     public String createFacebookAuthorizationURL(){
@@ -53,10 +55,10 @@ public class FacebookService {
 
 
     public String getPageAccessToken() {
-        return restTemplate.getForObject("https://graph.facebook.com/"+ userId +"/accounts?access_token="+ userAccessToken,  String.class);
+        return restTemplate.getForObject(GRAPH_API_URL+ userId +"/accounts?access_token="+ userAccessToken,  String.class);
     }
 
     public String checkPageAccessToken() {
-        return restTemplate.getForObject("https://graph.facebook.com/"+ userId +"/accounts?access_token="+ userAccessToken,  String.class);
+        return restTemplate.getForObject(GRAPH_API_URL+ userId +"...", String.class);
     }
 }
